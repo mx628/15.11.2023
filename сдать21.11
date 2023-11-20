@@ -1,0 +1,78 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+string itc_bin_num(long long number) {
+    string binst = "";
+    if (number < 0)
+        number *= -1;
+    char binare;
+    int n = 1;
+    while (number > 0) {
+        binare = number % 2 + '0';
+        binst = binst + binare;
+        number /= 2;
+    }
+    for (int i = 0; i < binst.length() / 2; i++) {
+        char tmp = binst[i];
+        binst[i] = binst[binst.length() - i - 1];
+        binst[binst.length() - i - 1] = tmp;
+    }
+    return binst;
+}
+string bin_in_computer(long long number, int byte, int codetype) {
+    string bin = itc_bin_num(number);
+    string zero = "";
+    if (byte > bin.length()) {
+        for (int i = 0; i < byte - bin.length(); i++)
+            zero += '0';
+        bin = zero + bin;
+    }
+    if (byte < bin.length()) {
+        string bin2 = "";
+        for (int i = bin.length() - byte; i < byte+1; i++) {
+            bin2 += bin[i];
+        }
+        bin = bin2;
+    }
+    if (number < 0)
+        bin[0] = '1';
+    else
+        bin[0] = '0';
+
+    if (codetype == 1)
+        return bin;
+    if (codetype == 2) {
+        for (int i = 1; i < byte; i++)
+            if (bin[i] == '0')
+                bin[i] = '1';
+            else
+                bin[i] = '0';
+        return bin;
+    }
+    
+    for (int i = 1; i < byte; i++)
+        if (bin[i] == '0')
+            bin[i] = '1';
+        else
+            bin[i] = '0';
+    int n = -1;
+    for (int i = byte - 1; i >= 0; i--) {
+        if (bin[i] == '0') {
+            bin[i] = '1';
+            n = i;
+            i = -1;
+        }
+        else
+            bin[i] == '0';
+    }
+    for (int i = n + 1; i < byte; i++) {
+        bin[i] = '0';
+    }
+    return bin;
+}
+int main()
+{
+    cout << bin_in_computer(-256, 7, 3) << endl;
+    return 0;
+}
