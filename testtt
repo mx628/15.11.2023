@@ -1,0 +1,55 @@
+#include<iostream>
+#include<string>
+using namespace std;
+ int strmax(string a, string b){
+    int isnA = 0, isnB = 0;
+    if(a[0] == '-')
+        isnA = 1;
+    if(b[0] == '-')
+        isnB = 1;
+    if(a.size() - isnA > b.size() - isnB)
+        return a.size();
+    if(a.size() - isnA < b.size() - isnB)
+        return b.size();
+    return a.size();
+}
+string rev(string str){
+    string str2;
+    int n = 0;
+    if(str[0] == '-')
+        for(int i = str.size()-1; i > 0; i--){
+            str2 = str2 + str[i];
+        }
+    else
+        for(int i = str.size()-1; i >= 0; i--){
+            str2 = str2 + str[i];
+    }
+    return str2;
+}
+string sum(string a, string b){
+    int n = 0;
+    string c = "";
+    for(int i = 0; i < strmax(a,b) + 1; i++){
+        c += (((a[i] - '0') + (b[i] - '0') + n)%10 + '0');
+        cout << c << endl;
+        n = ((a[i] - '0') + (b[i] - '0') + n)/10;
+    }
+    return c;
+}
+string oper(string a, string b, int op){//0 - слож. 1 - выч. 2 - умн. 3 - дел.
+    int isnegA = 1, isnegB = 1;
+    string str;
+    if(a[0] == '-')
+        isnegA = -1;
+    if(b[0] == '-')
+        isnegB = -1;
+    a = rev(a);
+    b = rev(b);
+    if(isnegB * op == 1 && isnegA == 1 && op == 0)
+        return sum(a,b);
+}
+int main() {
+    //cout << rev("123456789");
+    cout << sum("121212","12");
+return 0;
+}
